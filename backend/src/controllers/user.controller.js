@@ -12,7 +12,7 @@ export const register = async (req, res) => {
                 success:false
             });
         }
-        const user = await User.findone({email});
+        const user = await User.findOne({email});
         if(user){
             return res.status(401).json({
                 message:"Email is already exist, try different email",
@@ -46,7 +46,7 @@ export const login = async (req, res)=>{
             })
         }
 
-        let user = await User.findone({email});
+        let user = await User.findOne({email});
         if(!user){
             return res.status(401).json({
                 message:"Account is not registered!",
