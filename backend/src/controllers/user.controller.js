@@ -99,7 +99,7 @@ export const logout = async (_,res) =>{
 export const getProfile = async (req, res) => {
     try {
         const userId = req.params.id;
-        let user = await User.findById(userId);
+        let user = await User.findById(userId).select('-password');
 
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
@@ -124,7 +124,7 @@ export const editProfile = async (req, res) => {
             cloudResponse = await cloudinary.uploader.upload(fileUri);
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).select('-password');
         if(!user){
             return res.status(404).json({
                 message:'User not found',
@@ -151,7 +151,7 @@ export const editProfile = async (req, res) => {
 
 export const getSuggestedUsers = async (req, res) => {
     try {
-        const suggestedUsers = await User.find({_id:{$notEqual:req.id}}).select("-password");
+        const suggestedUsers = await User.find({_id:{$ne:req.id}}).select("-password");
         if(!suggestedUsers){
             return res.status(400).json({
                 message:'Currently do not have users'
