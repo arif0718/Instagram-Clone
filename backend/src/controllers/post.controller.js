@@ -2,6 +2,7 @@ import sharp from "sharp";      //for resizing the image(compressing)
 import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
+import { Comment } from "../models/comment.model.js";
 export const addNewPost = async (req, res) => {
     try {
         const {caption} = req.body;
@@ -150,13 +151,36 @@ export const addComment = async (req, res) => {
             text,
             author:commneterId,
             post:postId
-        }).popolate({
+        })
+
+        await comment.populate({
             path: 'author',
             select:"username, profilePicture"
         });
 
         post.comments.push(comment._id);
-        await post.save();  
+        await post.save();
+
+        return res.status(201).json({
+            message:'Comment Added',
+            comment,
+            success:true
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getCommentsOfPost = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const comments = await Comment.find({post:postId}).popolate('author', 'username profilePicture');
+
+        if(!comments) return res.status(404).json({message:'No comments for this post', success:false});
+
+        return res.status(200).json({success:true, comments});
+
     } catch (error) {
         console.log(error);
     }

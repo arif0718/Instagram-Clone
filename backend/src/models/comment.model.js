@@ -18,4 +18,4 @@ const commentSchemna = new mongoose.Schema({
     required: true,
   },
 });
-export default Comment = mongoose.model('Comment', commentSchemna);
+export const Comment = mongoose.model('Comment', commentSchemna);
