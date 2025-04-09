@@ -5,9 +5,8 @@ import { Button } from './ui/button'
 import axios from 'axios'
 import { toast } from 'sonner'
 
-const Signup = () => {
+const Login = () => {
     const [input, setInput] = useState({
-        username:"",
         email:"",
         password:""
     });
@@ -17,11 +16,11 @@ const Signup = () => {
         setInput({...input, [e.target.name]:e.target.value});
     };
 
-    const signupHandler = async (e) => {
+    const signInHandler = async (e) => {
         e.preventDefault();              //preventing to refress the page buz after refressing page data may lose
         try {
             setLoading(true);
-            const res = await axios.post('http://localhost:8000/api/v1/user/register',input, {
+            const res = await axios.post('http://localhost:8000/api/v1/user/login',input, {
                 headers:{
                     'Content-Type':'application/json'
                 },
@@ -30,7 +29,6 @@ const Signup = () => {
             if(res.data.success){
                 toast.success(res.data.message);
                 setInput({
-                    username:"",
                     email:"",
                     password:""
                 })
@@ -44,21 +42,12 @@ const Signup = () => {
     }
   return (
     <div className='flex items-center w-screen h-screen justify-center'>
-        <form onSubmit={signupHandler} className='shadow-lg flex flex-col gap-5 p-8'>
+        <form onSubmit={signInHandler} className='shadow-lg flex flex-col gap-5 p-8'>
             <div className='my-4'>
                 <h1 className='text-center font-bold text-xl'>LOGO</h1>
-                <p className='text-sm text-center'>Signup to see photos & videos from your friends</p>
+                <p className='text-sm text-center'>Login to see photos & videos from your friends</p>
             </div>
-            <div>
-                <Label className='font-medium'>Username</Label>
-                <Input
-                type='text'
-                name='username'
-                value={input.username}
-                onChange={changeEventHandler}
-                className="focus-visible:ring-tranparent my-2"
-                />
-            </div>
+            
             <div>
                 <Label className='font-medium'>Email</Label>
                 <Input
@@ -79,10 +68,10 @@ const Signup = () => {
                 className="focus-visible:ring-tranparent my-2"
                 />
             </div>
-            <Button type='submit'>Signup</Button>
+            <Button type='submit'>Login</Button>
         </form>
     </div>
   )
 }
 
-export default Signup
+export default Login
