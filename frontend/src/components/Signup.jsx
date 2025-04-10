@@ -4,6 +4,7 @@ import { Label } from '@radix-ui/react-label'
 import { Button } from './ui/button'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
     const [input, setInput] = useState({
@@ -80,6 +81,7 @@ const Signup = () => {
                 />
             </div>
             <Button type='submit'>Signup</Button>
+            <span className='text-center'>Already have an account? <Link to="/login" className='text-blue-600'>Login</Link></span>
         </form>
     </div>
   )
