@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 
 const CommentDialog = ({ open, setOpen }) => {
+  //use for input text in dialog box
+  const [text, setText] = useState("");
+
+  //after writing the comment check comment is there or not then set the text
+  const changeEventHandler = (e) => {
+    const inputText = e.target.value;
+    if(inputText.trim()){
+      setText(inputText);
+    }else{
+      setText("");
+    }
+  }
+
+  //used for interecting with backend for input comment
+  const sendMessageHandler = async () => {
+    alert(text);
+  }
+
   return (
     <Dialog open={open}>
       <DialogContent
@@ -56,6 +73,19 @@ const CommentDialog = ({ open, setOpen }) => {
                   </Button>
                 </DialogContent>
               </Dialog>
+            </div>
+            <hr />
+
+            {/* for comments */}
+            <div className="flex-1 overflow-y-auto max-h-96 p-4">
+              comments shows here
+            </div>
+            <hr />
+
+            {/* input space div*/}
+            <div className="flex items-center gap-2 m-2">
+              <input type="text" value={text} onChange={changeEventHandler} placeholder="Add a comment..." className="w-full outline-none border border-gray-300 p-2 rounded"/>
+              <Button disabled={!text.trim()} onClick={sendMessageHandler} variant="outline">Send</Button>
             </div>
           </div>
         </div>
