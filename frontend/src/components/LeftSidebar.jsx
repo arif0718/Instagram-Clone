@@ -7,7 +7,7 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react"; //used for icons
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,11 +15,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import store from "@/redux/store.js";
 import { setAuthUser } from "@/redux/authSlice";
+import CreatePost from "./CreatePost";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
   const logouthandler = async () => {
     try {
@@ -37,7 +39,11 @@ const LeftSidebar = () => {
   };
 
   const sidebarHandler = (textType) => {
-    if (textType == "Logout") logouthandler();
+    if (textType == "Logout") {
+      logouthandler();
+    } else if (textType == "Create") {
+      setOpen(true);
+    }
   };
 
   const SidebarItems = [
@@ -57,7 +63,7 @@ const LeftSidebar = () => {
       text: "Profile",
     },
     { icon: <LogOut />, text: "Logout" },
-  ]
+  ];
 
   return (
     <div className="fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen ">
@@ -76,6 +82,8 @@ const LeftSidebar = () => {
           );
         })}
       </div>
+
+      <CreatePost open={open} setOpen={setOpen} />
     </div>
   );
 };
