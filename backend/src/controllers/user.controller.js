@@ -70,10 +70,13 @@ export const login = async (req, res)=>{
         const populatedPosts = await Promise.all(
             user.posts.map(async (postId) => {
                 const post = await Post.findById(postId);
-                if(post.author.equals(user._id)) return postId;
+                if (post?.author?.equals(user._id)) {
+                    return post;
+                }
                 return null;
             })
-        )
+        );
+        
         
         user = {
             _id:user._id,
@@ -83,7 +86,7 @@ export const login = async (req, res)=>{
             bio:user.bio,
             followers:user.followers,
             following:user.following,
-            posts:user.posts
+            posts:populatedPosts
         }
 
         return res.cookie('token', token, {httpOnly:true, sameSite:'strict', maxAge: 1*24*60*60*1000}).json({
