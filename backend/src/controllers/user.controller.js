@@ -175,7 +175,7 @@ export const getSuggestedUsers = async (req, res) => {
 
         return res.status(200).json({
             success:true,
-            user:suggestedUsers
+            users:suggestedUsers
         });
 
     } catch (error) {
