@@ -18,6 +18,7 @@ import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Button } from './ui/button'
+import { clearLikeNotification } from "@/redux/rtnSlice";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const LeftSidebar = () => {
   );
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+const [popoverOpen, setPopoverOpen] = useState(false);
 
   const logouthandler = async () => {
     try {
@@ -92,8 +94,17 @@ const LeftSidebar = () => {
               {item.icon}
               <span>{item.text}</span>
               {item.text === "Notifications" && likeNotification.length > 0 && (
-                <Popover>
-                  <PopoverTrigger asChild>
+                <Popover
+  open={popoverOpen}
+  onOpenChange={(open) => {
+    if (!open && popoverOpen) {
+      // Popover is closing — clear notification
+      dispatch(clearLikeNotification());
+    }
+    setPopoverOpen(open);
+  }}
+>
+                  <PopoverTrigger asChild >
                     <Button
                       size="icon"
                       className="rounded-full h-5 w-5 bg-red-600 hover:bg-red-600 absolute bottom-6 left-6"

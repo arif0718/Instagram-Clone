@@ -276,7 +276,7 @@ export const bookmarkPost = async (req, res) => {
         .status(404)
         .json({ message: "Post not found", success: false });
 
-    const user = await user.findById(authorId);
+    const user = await User.findById(authorId);
     if (user.bookmarks.includes(post._id)) {
       //already bookmarked -> remove from the bookmark
       await user.updateOne({ $pull: { bookmarks: post._id } });

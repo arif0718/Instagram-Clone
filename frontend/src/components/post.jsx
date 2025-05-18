@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
+import { MessageCircle, MoreHorizontal, Send } from "lucide-react";
+import { BookmarkIcon as BookmarkOutline } from "@heroicons/react/24/outline";
+import { BookmarkIcon as BookmarkSolid } from "@heroicons/react/24/solid";
 import { Button } from "./ui/button";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./CommentDialog";
@@ -18,7 +20,7 @@ const Post = ({ post }) => {
   const { posts } = useSelector((store) => store.post);
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   const [bookmarked, setBookmarked] = useState(
-    !!user?.Bookmarks?.includes(post._id)
+    !!user?.Bookmarks?.includes(post._id) ||false
   );
   const [postLike, setPostLike] = useState(post.likes.length);
   const [comment, setComment] = useState(post.comments);
@@ -113,16 +115,20 @@ const Post = ({ post }) => {
     }
   };
 
-  //   const bookmarkHandler = async () => {
-  //     try {
-  //         const res = await axios.get(`http://localhost:8000/api/v1/post/${post?._id}/bookmark`, {withCredentials:true});
-  //         if(res.data.success){
-  //             toast.success(res.data.message);
-  //         }
-  //     } catch (error) {
-  //         console.log(error);
-  //     }
-  // }
+  const bookmarkHandler = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/v1/post/${post?._id}/bookmark`,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setBookmarked(!bookmarked);
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     // w-full property we remove
@@ -201,20 +207,13 @@ const Post = ({ post }) => {
           />
           <Send className="cursor-pointer hover:text-gray-600" />
         </div>
-        {/* {bookmarked ? (
-            <Bookmark
-              onClick={bookmarkHandler}
-              size={"24"}
-              className="cursor-pointer text-red-600"
-            />
+        <button onClick={bookmarkHandler}>
+          {bookmarked ? (
+            <BookmarkSolid className="w-6 h-6  text-black " />
           ) : (
-            <Bookmark
-              onClick={bookmarkHandler}
-              size={"22px"}
-              className="cursor-pointer hover:text-gray-600"
-            />
-          )} */}
-        <Bookmark className="cursor-pointer hover:text-gray-600" />
+            <BookmarkOutline className="w-6 h-6 text-black " />
+          )}
+        </button>
       </div>
 
       <span className="font-medium block mb-2">{postLike} likes</span>
