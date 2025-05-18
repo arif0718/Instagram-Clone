@@ -38,7 +38,7 @@ const CommentDialog = ({ open, setOpen }) => {
   const deleteSelectedPostHandler = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/api/v1/post/delete/${selectedPost?._id}`,
+        `https://instavibe-uzz9.onrender.com/api/v1/post/delete/${selectedPost?._id}`,
         { withCredentials: true }
       );
       if (res.data.success) {
@@ -58,7 +58,7 @@ const CommentDialog = ({ open, setOpen }) => {
   const sendMessageHandler = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/post/${selectedPost?._id}/comment`,
+        `https://instavibe-uzz9.onrender.com/api/v1/post/${selectedPost?._id}/comment`,
         { text },
         {
           headers: {

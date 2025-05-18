@@ -9,7 +9,7 @@ const useGetAllPost = () => {
   useEffect(() => {
     const fetchAllPost = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/post/all", {
+        const res = await axios.get("https://instavibe-uzz9.onrender.com/api/v1/post/all", {
           withCredentials: true,
         });
         if (res.data.success) {
