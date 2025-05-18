@@ -65,9 +65,9 @@ function App() {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
-      // socketio.on('notification', (notification) => {
-      //   dispatch(setLikeNotification(notification));
-      // });
+      socketio.on('notification', (notification) => {
+        dispatch(setLikeNotification(notification));
+      });
 
       //when we cross the tab then its automatically get offline
       return () => {
