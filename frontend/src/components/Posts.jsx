@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from './Post'
+import Post from './Post_temp'
 import { useSelector } from 'react-redux'
 
 const Posts = () => {
