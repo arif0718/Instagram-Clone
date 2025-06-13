@@ -10,5 +10,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    build: {
+    chunkSizeWarningLimit: 1000, // set in KB; here it's 1000KB = 1MB
+  },
   },
 })
